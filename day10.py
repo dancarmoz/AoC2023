@@ -68,3 +68,27 @@ def solve_hard(path, m, n):
     return sum(1 for i in xrange(m) for j in xrange(n) if (not (i,j) in loop) and (doub[2*i][2*j] == 0))
 
 assert solve_hard(path, m, n) == 413
+
+# Alternative hard solution, figuted out after submissions
+def solve_hard2(lines, path):
+    lines = lines[:]
+    m, n = len(lines), len(lines[0])
+    start, ne, pr = path[0], path[1], path[-1]
+    dirs = [(o[0]-start[0], o[1]-start[1]) for o in [ne, pr]]
+    flags = 2*((1,0) in dirs) + ((0,1) in dirs)
+    real_start = 'JL7F'[flags]
+    lines[start[0]] = lines[start[0]].replace('S',real_start)
+    setpath = set(path)
+
+    res, state = 0, 0
+    for diag in range(-m+1, n):
+        for i in xrange(m):
+            j = i + diag
+            if (i,j) not in setpath:
+                res += state
+            else:
+                state ^= (lines[i][j] in '|-FJ')
+        assert state == 0
+    return res
+
+assert solve_hard2(lines, path) == 413
