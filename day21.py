@@ -35,6 +35,7 @@ def solve_easy_better(lines, start, k):
 assert solve_easy_better(lines, start, 64)[-1] == 3758
 
 step_count = 26501365
+# step count is in fact 2023*100*131 + 65.
 assert step_count % m == (m-1)/2
 
 def delta_sub(lst, d = 1):
