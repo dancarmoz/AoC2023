@@ -74,4 +74,28 @@ def travel_hard(count, traveled, node):
         traveled[nd] = 0
     return res
 
-assert travel_hard(0, traveled, 0) == 6258
+# assert travel_hard(0, traveled, 0) == 6258 # works, but takes ~10s
+
+# Faster solution method by Yoaz Tzfati
+BEST = 0
+def travel_hard_bnb(count, node, bound):
+    global BEST, traveled
+    if node == 1:
+        BEST = max(count, BEST)
+        return
+    bound -= sum([d for nd, d in graph[node] if not traveled[nd]])
+    for nd, dist  in graph[node]:
+        if bound + dist < BEST or traveled[nd]: continue
+        traveled[nd] = 1
+        travel_hard_bnb(count + dist, nd, bound + dist)
+        traveled[nd] = 0
+
+def solve_hard_bnb():
+    global BEST, traveled
+    BEST = 0
+    traveled = [1] + [0]*(N-1)
+    total_bound = sum(d for edges in graph for u, d in edges)/2
+    travel_hard_bnb(0, 0, total_bound)
+    return BEST
+
+assert solve_hard_bnb() == 6258
