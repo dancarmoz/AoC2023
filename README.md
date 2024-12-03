@@ -1,4 +1,4 @@
-Advent of Code 2023.
+Advent of Code solutions. The repo was originally created for AoC2023, and retains its legacy name.
 
 All solutions are in python2.7.
 
