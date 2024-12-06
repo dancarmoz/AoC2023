@@ -45,3 +45,22 @@ def solve_day06_pt2():
     return sum([is_looping(modify_lines(i,j)) \
                 for i in xrange(m) for j in xrange(n) \
                 if visited[i][j] and (i,j) != (si, sj)])
+
+def solve_day06_pt2_better():
+    ci, cj, d = si, sj, 0
+    visited = [[0]*n for i in xrange(m)]
+    visited[si][sj] = 1
+    path, count = [], 0
+    while True:
+        if not visited[ci][cj]:
+            modlines = modify_lines(ci, cj)
+            count += int(is_looping_from_path(modlines, path))
+        path.append((ci, cj, d))
+        visited[ci][cj] = 1
+        di, dj = dirs[d]
+        ni, nj = ci+di, cj + dj
+        if not (0 <= ni < m and 0 <= nj < n): return count
+        if lines[ni][nj] != '#':
+            ci, cj = ni, nj
+        else:
+            d = (d + 1) % 4
