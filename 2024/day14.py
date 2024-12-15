@@ -25,6 +25,12 @@ def score_state(t):
         dd.add(((a+t*c)%w,(b+t*d) % h))
     return sum([(x+1, y) in dd for x,y in dd])
 
+def score_state_symmetry(t):
+    dd = set()
+    for a,b,c,d in ns:
+        dd.add(((a+t*c)%w,(b+t*d) % h))
+    return max([sum([(A-x, y) in dd for x,y in dd]) for A in range(2*(w-1))])
+
 def argmax(scores):
     return max([(s,i) for i,s in enumerate(scores)])[1]
 
@@ -43,7 +49,7 @@ the line's length, as the periods of x or y coordinates are just the width and h
 product. Thus we can find the best "x" time and the best "y" time separately, and join them using
 the Chinese Remainder Theorem.
 '''
-def score_porjection(t, i):
+def score_projection(t, i):
     counts = [0]*((w,h)[i])
     for a,b,c,d in ns:
         coords = (a+t*c)%w,(b+t*d) % h
@@ -52,8 +58,8 @@ def score_porjection(t, i):
 
 # Runs in ~17ms.
 def solve_day14_pt2_crt():
-    xt = argmax([score_porjection(t, 0) for t in xrange(w)])
-    yt = argmax([score_porjection(t, 1) for t in xrange(h)])
+    xt = argmax([score_projection(t, 0) for t in xrange(w)])
+    yt = argmax([score_projection(t, 1) for t in xrange(h)])
     return (xt*inv_mod(h,w)*h + yt*inv_mod(w,h)*w)%(w*h)
     
 
