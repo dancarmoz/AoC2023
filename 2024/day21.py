@@ -38,7 +38,7 @@ def solve_day21_pt1():
 
 # ~1ms
 def solve_day21_pt2():
-    dds = 'A<>^v'
+    ds = 'A<>^v'
     npresses = {(i,j): 1 for i in ds for j in ds}
     for t in range(25):
         npresses = {(i,j): min([
